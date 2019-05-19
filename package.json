@@ -1,0 +1,53 @@
+{
+	"name": "nuls-chrome-extension-api",
+	"version": "0.1.0",
+	"description": "The API server for providing data about the NULS blockchain for the NULS Chrome Extension",
+	"author": "Josh Welham / MechJosh0",
+	"main": "index.js",
+	"homepage": "https://github.com/MechJosh0/FooBar-API#readme",
+	"scripts": {
+		"start": "node ./bin/www",
+		"dev": "nodemon --trace-warnings --config nodemon.json ./bin/www",
+		"lint": "./node_modules/.bin/eslint --ext js,vue app.js data/ src/",
+		"lintDebug": "./node_modules/.bin/eslint --ext js,vue build/utils.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"bugs": {
+		"url": "https://github.com/MechJosh0/FooBar-API/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/MechJosh0/FooBar-API.git"
+	},
+	"_moduleAliases": {
+		"@": "./src"
+	},
+	"license": "MIT",
+	"keywords": [
+		"nuls",
+		"blockchain",
+		"chrome",
+		"extension",
+		"wallet",
+		"api",
+		"express",
+		"node"
+	],
+	"dependencies": {
+		"cors": "^2.8.5",
+		"debug": "^4.1.1",
+		"dotenv": "^8.0.0",
+		"express": "^4.17.0",
+		"http-errors": "^1.7.2",
+		"module-alias": "^2.2.0",
+		"morgan": "^1.9.1",
+		"mysql2": "^1.6.5",
+		"nodemon": "^1.19.0"
+	},
+	"devDependencies": {
+		"eslint": "^5.16.0",
+		"eslint-config-airbnb-base": "^13.1.0",
+		"eslint-loader": "^2.1.2",
+		"eslint-plugin-import": "^2.17.2"
+	}
+}
