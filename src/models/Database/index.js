@@ -14,12 +14,15 @@ class Database
 	 */
 	static async connect()
 	{
-		return mysqlPromise.createConnection({
+		return mysqlPromise.createPool({
 			host: process.env.DATABASE_HOST,
 			user: process.env.DATABASE_USERNAME,
 			password: process.env.DATABASE_PASSWORD,
 			database: process.env.DATABASE_NAME,
-			port: process.env.DATABASE_PORT
+			port: process.env.DATABASE_PORT,
+			waitForConnections: true,
+			connectionLimit: 10,
+			queueLimit: 0
 		});
 	}
 
@@ -52,43 +55,87 @@ class Database
 		return mysql.format(query, params);
 	}
 
-	async _query(query, params)
+	async _query(query, params, connection)
 	{
+		let res;
+
 		this.queries.push({ query, params });
 
-		const res = await this.connection.execute(query, params);
+		if(connection)
+		{
+			res = await connection.execute(query, params);
+		}
+		else
+		{
+			res = await this.connection.execute(query, params);
+		}
 
 		this.queries[this.queries.length - 1] = { query, params, res };
 
 		return res;
 	}
 
-	async insert(query, params)
+	async insert(query, params, connection)
 	{
-		const res = await this._query(query, params);
+		const res = await this._query(query, params, connection);
 
 		return res[0].insertId;
 	}
 
-	async select(query, params)
+	async select(query, params, connection)
 	{
-		const res = await this._query(query, params);
+		const res = await this._query(query, params, connection);
 
 		return res;
 	}
 
-	async update(query, params)
+	async select1r(query, params, connection)
 	{
-		const res = await this._query(query, params);
+		const res = await this._query(query, params, connection);
+
+		return res[0];
+	}
+
+	async update(query, params, connection)
+	{
+		const res = await this._query(query, params, connection);
 
 		return res.affectedRows;
 	}
 
-	async delete(query, params)
+	async delete(query, params, connection)
 	{
-		const res = await this._query(query, params);
+		const res = await this._query(query, params, connection);
 
 		return res.affectedRows;
+	}
+
+	async transaction(db, transactions)
+	{
+		const conn = await db.connection.getConnection();
+
+		conn.insert = (query, params) => db.insert(query, params, conn);
+		conn.select = (query, params) => db.select(query, params, conn);
+		conn.select1r = (query, params) => db.select1r(query, params, conn);
+		conn.update = (query, params) => db.update(query, params, conn);
+		conn.delete = (query, params) => db.delete(query, params, conn);
+
+		try
+		{
+			await conn.beginTransaction();
+			await transactions(conn);
+			await conn.commit();
+
+			conn.release();
+		}
+		catch(e)
+		{
+			console.error('MySQL transaction error: Roll back initiated!');
+
+			conn.rollback();
+
+			throw new Error(e.message);
+		}
 	}
 }
 
