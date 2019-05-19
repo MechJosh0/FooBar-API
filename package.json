@@ -6,6 +6,7 @@
 	"main": "index.js",
 	"homepage": "https://github.com/MechJosh0/FooBar-API#readme",
 	"scripts": {
+		"script:nulsPrice": "node ./src/scripts/getNULSPrice.js",
 		"start": "node ./bin/www",
 		"dev": "nodemon --trace-warnings --config nodemon.json ./bin/www",
 		"lint": "./node_modules/.bin/eslint --ext js,vue app.js data/ src/",
@@ -34,6 +35,7 @@
 		"node"
 	],
 	"dependencies": {
+		"axios": "^0.18.0",
 		"cors": "^2.8.5",
 		"debug": "^4.1.1",
 		"dotenv": "^8.0.0",
