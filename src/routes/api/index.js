@@ -8,10 +8,10 @@ router.use((req, res, next) =>
 {
 	req.db = new Database();
 
-	res.on('finish', () =>
-	{
-		req.db.end();
-	});
+	// res.on('finish', () =>
+	// {
+	// 	req.db.end();
+	// });
 
 	next();
 });
