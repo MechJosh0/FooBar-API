@@ -8,9 +8,10 @@ const pong = async (req, res) =>
 	{
 		await db.transaction(db, async (tr) =>
 		{
-			let result;
+			let result,
+				id;
 
-			const id = await tr.insert('INSERT INTO ping (id, datetime) VALUES (NULL, CURRENT_TIMESTAMP)');
+			id = await tr.insert('INSERT INTO ping (id, datetime) VALUES (NULL, CURRENT_TIMESTAMP)');
 
 			console.log(`Inserted ${id}`);
 
@@ -27,6 +28,10 @@ const pong = async (req, res) =>
 			await tr.delete('DELETE FROM ping WHERE id = ?', [id]);
 
 			console.log(`Deleted ${id}`);
+
+			id = await tr.insert('INSERT INTO ping (id, datetime) VALUES (NULL, CURRENT_TIMESTAMP)');
+
+			console.log(`Inserted ${id}`);
 		});
 	}
 	catch(e)
