@@ -47,6 +47,7 @@
 		"morgan": "^1.9.1",
 		"mysql2": "^1.6.5",
 		"nodemon": "^1.19.0",
+		"p-iteration": "^1.1.8",
 		"winston": "^3.2.1"
 	},
 	"devDependencies": {
