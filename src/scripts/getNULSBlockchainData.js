@@ -82,6 +82,8 @@ const run = async () =>
 					sleepSeconds = 10 - parseInt((`${date.getSeconds()}`)[1] || date.getSeconds(), 10); // Calculate seconds to the next 10 second block in time
 					logger.verbose(`Sleep until the next height: ${sleepSeconds}`);
 				}
+
+				logger.info(`Proccessed block: ${nextLocalHeight}`);
 			});
 		}
 		catch(e)
