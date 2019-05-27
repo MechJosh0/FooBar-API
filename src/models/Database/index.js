@@ -98,7 +98,7 @@ class Database
 			return null;
 		}
 
-		return res[0][Object.keys(res[0])[0]];
+		return res[0][0][Object.keys(res[0][0])[0]];
 	}
 
 	async select1r(query, params, connection)
