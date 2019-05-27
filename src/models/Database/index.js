@@ -89,6 +89,18 @@ class Database
 		return res;
 	}
 
+	async select1(query, params, connection)
+	{
+		const res = await this._query(query, params, connection);
+
+		if(res[0].length === 0)
+		{
+			return null;
+		}
+
+		return res[0][Object.keys(res[0])[0]];
+	}
+
 	async select1r(query, params, connection)
 	{
 		const res = await this._query(query, params, connection);
@@ -116,6 +128,7 @@ class Database
 
 		conn.insert = (query, params) => db.insert(query, params, conn);
 		conn.select = (query, params) => db.select(query, params, conn);
+		conn.select1 = (query, params) => db.select1(query, params, conn);
 		conn.select1r = (query, params) => db.select1r(query, params, conn);
 		conn.update = (query, params) => db.update(query, params, conn);
 		conn.delete = (query, params) => db.delete(query, params, conn);
