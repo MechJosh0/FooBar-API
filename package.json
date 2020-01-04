@@ -37,7 +37,7 @@
 		"node"
 	],
 	"dependencies": {
-		"axios": "^0.18.0",
+		"axios": "^0.18.1",
 		"cors": "^2.8.5",
 		"debug": "^4.1.1",
 		"dotenv": "^8.0.0",
